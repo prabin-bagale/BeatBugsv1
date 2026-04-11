@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BeatBazaar — Nepal's #1 Digital Beat Marketplace",
+  title: "BeatBugs — Nepal's #1 Digital Beat Marketplace",
   description: "Buy and sell beats with local payments, instant delivery, and legal licensing. Built for Nepal's music creators.",
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",

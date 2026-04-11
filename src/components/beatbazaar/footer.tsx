@@ -1,6 +1,6 @@
 'use client';
 
-import { Music, Github, Twitter, Instagram } from 'lucide-react';
+import { Github, Twitter, Instagram } from 'lucide-react';
 import { useAppStore } from '@/stores/beatbazaar-store';
 
 export function Footer() {
@@ -16,11 +16,9 @@ export function Footer() {
               className="flex items-center gap-2 cursor-pointer mb-4"
               onClick={() => setView('home')}
             >
-              <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-                <Music className="w-5 h-5 text-black" />
-              </div>
+              <img src="/beatbugs-logo.png" alt="BeatBugs" className="w-8 h-8 rounded-lg object-cover" />
               <span className="text-lg font-bold">
-                Beat<span className="text-emerald-500">Bazaar</span>
+                Beat<span className="text-emerald-500">Bugs</span>
               </span>
             </div>
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
@@ -100,7 +98,7 @@ export function Footer() {
 
         <div className="border-t border-border/50 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} BeatBazaar. All rights reserved.
+            &copy; {new Date().getFullYear()} BeatBugs. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground flex items-center gap-1.5">
             Built with{' '}

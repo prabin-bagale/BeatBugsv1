@@ -67,11 +67,9 @@ export function Navigation() {
             className="flex items-center gap-2 cursor-pointer flex-shrink-0"
             onClick={() => setView('home')}
           >
-            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-              <Music className="w-5 h-5 text-black" />
-            </div>
+            <img src="/beatbugs-logo.png" alt="BeatBugs" className="w-8 h-8 rounded-lg object-cover" />
             <span className="text-lg font-bold hidden sm:block">
-              Beat<span className="text-emerald-500">Bazaar</span>
+              Beat<span className="text-emerald-500">Bugs</span>
             </span>
           </div>
 
@@ -202,10 +200,8 @@ export function Navigation() {
               <SheetContent side="right" className="w-80 bg-card border-border/50 p-0">
                 <SheetHeader className="px-4 pt-6 pb-4 border-b border-border/50">
                   <SheetTitle className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-                      <Music className="w-4 h-4 text-black" />
-                    </div>
-                    Beat<span className="text-emerald-500">Bazaar</span>
+                    <img src="/beatbugs-logo.png" alt="BeatBugs" className="w-7 h-7 rounded-lg object-cover" />
+                    Beat<span className="text-emerald-500">Bugs</span>
                   </SheetTitle>
                 </SheetHeader>
 

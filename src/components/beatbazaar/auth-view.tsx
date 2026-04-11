@@ -90,7 +90,7 @@ export function AuthView() {
       }
 
       login(data.user);
-      showToast(`Welcome to BeatBazaar, ${data.user.name}!`, 'success');
+      showToast(`Welcome to BeatBugs, ${data.user.name}!`, 'success');
       setSignupName('');
       setSignupEmail('');
       setSignupRole('buyer');
@@ -111,9 +111,7 @@ export function AuthView() {
         >
           <DialogHeader className="px-6 pt-6 pb-0">
             <DialogTitle className="flex items-center justify-center gap-2 text-lg">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-                <Music className="w-5 h-5 text-black" />
-              </div>
+              <img src="/beatbugs-logo.png" alt="BeatBugs" className="w-8 h-8 rounded-lg object-cover" />
             </DialogTitle>
           </DialogHeader>
 

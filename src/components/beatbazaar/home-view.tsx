@@ -97,7 +97,7 @@ export function HomeView() {
           >
             <Badge className="mb-6 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-4 py-1.5 text-xs font-semibold">
               <Zap className="w-3 h-3 mr-1.5" />
-              Nepal&apos;s First Digital Beat Marketplace
+              Welcome to BeatBugs
             </Badge>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
