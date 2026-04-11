@@ -194,56 +194,6 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="border-y border-border/50 bg-card/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            {[
-              { label: 'Beats', value: '18+', icon: Music2 },
-              { label: 'Producers', value: '5', icon: Users },
-              { label: 'Transactions', value: '100+', icon: TrendingUp },
-            ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center gap-1">
-                <stat.icon className="w-5 h-5 text-emerald-500" />
-                <span className="text-xl sm:text-2xl font-bold">{stat.value}</span>
-                <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Genre Browsing */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="text-center mb-5">
-          <h2 className="text-xl sm:text-2xl font-bold">Browse by Genre</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Find beats that match your style</p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-          {GENRES.map((genre, i) => (
-            <motion.div
-              key={genre.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
-            >
-              <Card
-                className="cursor-pointer overflow-hidden bg-card border-border/50 hover:border-emerald-500/30 transition-all duration-300 group"
-                onClick={() => handleGenreClick(genre.name)}
-              >
-                <CardContent className="p-4 sm:p-5">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${genre.color} flex items-center justify-center text-lg sm:text-xl mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                    {genre.icon}
-                  </div>
-                  <h3 className="font-semibold text-sm sm:text-base text-white">{genre.name}</h3>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* Top Producers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="text-center mb-5">
@@ -291,6 +241,56 @@ export function HomeView() {
                   </Card>
                 </motion.div>
               ))}
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="border-y border-border/50 bg-card/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            {[
+              { label: 'Beats', value: '18+', icon: Music2 },
+              { label: 'Producers', value: '5', icon: Users },
+              { label: 'Transactions', value: '100+', icon: TrendingUp },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col items-center gap-1">
+                <stat.icon className="w-5 h-5 text-emerald-500" />
+                <span className="text-xl sm:text-2xl font-bold">{stat.value}</span>
+                <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Genre Browsing */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="text-center mb-5">
+          <h2 className="text-xl sm:text-2xl font-bold">Browse by Genre</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">Find beats that match your style</p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+          {GENRES.map((genre, i) => (
+            <motion.div
+              key={genre.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+            >
+              <Card
+                className="cursor-pointer overflow-hidden bg-card border-border/50 hover:border-emerald-500/30 transition-all duration-300 group"
+                onClick={() => handleGenreClick(genre.name)}
+              >
+                <CardContent className="p-4 sm:p-5">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${genre.color} flex items-center justify-center text-lg sm:text-xl mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                    {genre.icon}
+                  </div>
+                  <h3 className="font-semibold text-sm sm:text-base text-white">{genre.name}</h3>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </section>
 
