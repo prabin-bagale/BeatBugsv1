@@ -32,7 +32,7 @@ const GENRES = [
 ];
 
 export function HomeView() {
-  const { setView, selectBeat, selectProducer, setSelectedGenre, setSearchQuery } = useAppStore();
+  const { setView, selectBeat, selectProducer, setSelectedGenre, setSearchQuery, currentUser, openAuth, showToast } = useAppStore();
   const [featuredBeats, setFeaturedBeats] = useState<Beat[]>([]);
   const [topProducers, setTopProducers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -125,8 +125,16 @@ export function HomeView() {
                 size="lg"
                 variant="outline"
                 onClick={() => {
-                  setSearchQuery('');
-                  setView('browse');
+                  if (!currentUser) {
+                    showToast('Please sign up as a producer to sell beats', 'info');
+                    openAuth('signup');
+                    return;
+                  }
+                  if (currentUser.role === 'producer') {
+                    setView('producer-dashboard');
+                  } else {
+                    showToast('You need a producer account to sell beats', 'info');
+                  }
                 }}
                 className="border-border/50 h-12 px-8 text-base hover:bg-secondary"
               >
@@ -301,7 +309,18 @@ export function HomeView() {
             <Button
               size="lg"
               className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold h-12 px-8"
-              onClick={() => setView('browse')}
+              onClick={() => {
+                if (!currentUser) {
+                  showToast('Please sign up as a producer to sell beats', 'info');
+                  openAuth('signup');
+                  return;
+                }
+                if (currentUser.role === 'producer') {
+                  setView('producer-dashboard');
+                } else {
+                  showToast('You need a producer account to sell beats', 'info');
+                }
+              }}
             >
               <Music2 className="w-5 h-5 mr-2" />
               Get Started
