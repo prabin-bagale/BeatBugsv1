@@ -167,3 +167,27 @@ Stage Summary:
 - /api/beats returns 18 beats with all data
 - Database (SQLite at db/custom.db) connected and operational
 - All previous features intact: beat cards, Recently Added, audio player, upload
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix PreconditionFailed deployment error - make build reliable for serverless
+
+Work Log:
+- Diagnosed root cause: build script used `npx prisma generate` which can hang on restricted serverless networks, causing function to stay in "pending" state indefinitely
+- Fixed build script: replaced `npx prisma generate` with `prisma generate` (uses local binary), added `prisma db push --skip-generate --accept-data-loss` to create DB schema on serverless
+- Fixed start script: changed from `bun` to `node` for serverless runtime compatibility
+- Fixed seed.ts: removed dangerous `db.$disconnect()` / `db.$connect()` calls that could corrupt Prisma client state
+- Verified all 7 API routes have `ensureSeeded()` for auto-seeding empty databases on serverless
+- Removed unnecessary `upload/` directory
+- Tested full build locally: completes in ~10s with no hangs
+- Tested standalone production server: HTTP 200, 18 beats returned
+- Tested dev server: HTTP 200, 18 beats returned
+- Committed all changes cleanly
+
+Stage Summary:
+- Build script now reliable and won't hang on serverless platform
+- Auto-seed mechanism ensures database has data even on fresh serverless deployments
+- Start script uses node (not bun) for platform compatibility
+- All servers (dev, standalone production) tested and working
+- Changes committed to git for platform deployment
