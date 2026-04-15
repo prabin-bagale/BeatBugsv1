@@ -1,7 +1,8 @@
-import { db } from '@/lib/db';
+import { db, ensureSeeded } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
+  await ensureSeeded();
   try {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('q') || '';
@@ -78,6 +79,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    await ensureSeeded();
     const body = await request.json();
     const {
       title,

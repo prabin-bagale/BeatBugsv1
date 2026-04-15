@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db, ensureSeeded } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -6,6 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await ensureSeeded();
     const { id } = await params;
     const beat = await db.beat.findUnique({
       where: { id },

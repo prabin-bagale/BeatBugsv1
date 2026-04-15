@@ -173,3 +173,22 @@ Stage Summary:
 - Database schema auto-created on fresh deployments via build script
 - Relative DATABASE_URL works on any platform
 - `.env` with DATABASE_URL now deployed with the code
+---
+Task ID: 8
+Agent: Main Agent
+Task: Fix "nothing is showing" - auto-seed on fresh serverless deployments
+
+Work Log:
+- **Root cause**: On serverless, database starts completely empty (no tables, no seed data). The seed script (`prisma/seed.ts`) was never called during deployment or runtime
+- **Fix 1**: Created `src/lib/seed.ts` — exports `ensureSeeded()` function that checks if database is empty and auto-populates with 7 users, 18 beats, and 2 sample orders
+- **Fix 2**: Updated `src/lib/db.ts` to export `ensureSeeded()` for use by API routes
+- **Fix 3**: Added `await ensureSeeded()` to all 7 API route handlers (beats, auth, dashboard, orders, upload, beat detail) — ensures database is seeded before any API call executes
+- **Fix 4**: Seed function uses deduplication promise to prevent multiple concurrent seed attempts
+- Tested by deleting database completely → dev server auto-seeded on first request → all APIs returned 200
+
+Stage Summary:
+- Fresh serverless deployments now auto-seed on first API call
+- 7 users (5 producers + 2 buyers), 18 beats, 2 sample orders created automatically
+- Database remains at 40KB (no audio blobs)
+- All API routes return 200 on first request even with empty database
+- Seed only runs once (skips if data already exists)
