@@ -6,7 +6,7 @@ import { Play, Pause, SkipBack, SkipForward, X, Volume2, VolumeX } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { useAppStore } from '@/stores/beatbazaar-store';
-import { getAudioElement, formatTime, isValidAudioUrl } from '@/lib/audio-player';
+import { getAudioElement, formatTime } from '@/lib/audio-player';
 
 export function AudioPlayerBar() {
   const {
@@ -61,7 +61,7 @@ export function AudioPlayerBar() {
     audioReadyRef.current = false;
 
     const src = currentlyPlaying?.audioPreviewUrl;
-    if (!isValidAudioUrl(src)) return; // Skip invalid URLs like '#' or '/audio/x.mp3'
+    if (!src) return;
 
     // Reset and load new source
     audio.pause();
@@ -131,8 +131,9 @@ export function AudioPlayerBar() {
       audioReadyRef.current = false;
     };
 
-    const handleError = () => {
-      // Silently ignore errors from invalid sources — don't spam console
+    const handleError = (e: Event) => {
+      const target = e.target as HTMLAudioElement;
+      console.error('Audio error:', target.error?.message || 'Unknown error');
       pauseBeat();
       stopTicking();
     };
@@ -190,7 +191,7 @@ export function AudioPlayerBar() {
 
   if (!currentlyPlaying) return null;
 
-  const hasAudio = isValidAudioUrl(currentlyPlaying.audioPreviewUrl);
+  const hasAudio = !!currentlyPlaying.audioPreviewUrl;
 
   return (
     <AnimatePresence>
