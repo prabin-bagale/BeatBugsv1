@@ -560,48 +560,110 @@ export function HomeView() {
             <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
           </div>
 
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="hidden sm:block absolute top-1/2 left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-emerald-500/20 via-emerald-500/40 to-emerald-500/20 -translate-y-1/2 z-0">
-              <motion.div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"
-                animate={{ left: ['0%', '100%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          <div className="relative py-4">
+            {/* Curved SVG connecting path */}
+            <svg className="hidden sm:block absolute inset-0 w-full h-full z-0" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(16,185,129,0.08)" />
+                  <stop offset="30%" stopColor="rgba(16,185,129,0.35)" />
+                  <stop offset="50%" stopColor="rgba(20,184,166,0.45)" />
+                  <stop offset="70%" stopColor="rgba(16,185,129,0.35)" />
+                  <stop offset="100%" stopColor="rgba(16,185,129,0.08)" />
+                </linearGradient>
+                <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="50%" stopColor="#14b8a6" />
+                  <stop offset="100%" stopColor="#f59e0b" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <path
+                d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
+                stroke="url(#curveGrad)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
               />
+              <path
+                d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
+                stroke="url(#dotGrad)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray="8 80"
+                filter="url(#glow)"
+              >
+                <animate attributeName="stroke-dashoffset" from="0" to="-88" dur="2s" repeatCount="indefinite" />
+              </path>
+            </svg>
+
+            {/* Decorative floating dots */}
+            <div className="hidden sm:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
+              {[{ x: '20%', y: '15%', size: 4, delay: 0 }, { x: '45%', y: '85%', size: 3, delay: 1.5 }, { x: '70%', y: '10%', size: 5, delay: 0.8 }, { x: '85%', y: '80%', size: 3, delay: 2.2 }].map((dot, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full bg-emerald-500/20"
+                  style={{ left: dot.x, top: dot.y, width: dot.size, height: dot.size }}
+                  animate={{ y: [0, -12, 8, -6, 0], opacity: [0.2, 0.6, 0.3, 0.5, 0.2] }}
+                  transition={{ duration: 4 + i * 0.5, repeat: Infinity, delay: dot.delay, ease: 'easeInOut' }}
+                />
+              ))}
             </div>
 
             {/* Steps */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-6 relative z-10">
               {[
-                { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
-                { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
-                { emoji: '🛡️', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
-                { emoji: '💰', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
+                { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-400 via-emerald-500 to-teal-600', ring: 'ring-emerald-500/20', delay: 0, yOff: 10 },
+                { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-400 via-orange-500 to-amber-600', ring: 'ring-amber-500/20', delay: 0.1, yOff: -10 },
+                { emoji: '🛡️', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-400 via-fuchsia-500 to-purple-600', ring: 'ring-purple-500/20', delay: 0.2, yOff: 10 },
+                { emoji: '💰', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-400 via-rose-500 to-pink-600', ring: 'ring-pink-500/20', delay: 0.3, yOff: -10 },
               ].map((step, i) => (
                 <motion.div
                   key={step.label}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 40, scale: 0.7 }}
+                  whileInView={{ opacity: 1, y: step.yOff, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: step.delay }}
+                  transition={{ duration: 0.6, delay: step.delay, type: 'spring', stiffness: 100 }}
                   className="flex flex-col items-center text-center"
                 >
-                  {/* Circle with gradient and lucide icon */}
-                  <div className="relative mb-3">
+                  {/* Outer glow ring */}
+                  <div className={`relative mb-4`}>
+                    {/* Animated outer ring */}
                     <motion.div
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg`}
-                      animate={{ boxShadow: [`0 4px 15px rgba(16,185,129,0.2)`, `0 8px 30px rgba(16,185,129,0.4)`, `0 4px 15px rgba(16,185,129,0.2)`] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
+                      className={`absolute -inset-2 rounded-full ${step.ring} ring-2 opacity-60`}
+                      animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
+                      transition={{ duration: 3, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' }}
+                    />
+                    {/* Glass-morphism circle */}
+                    <motion.div
+                      className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-xl backdrop-blur-sm border border-white/10`}
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
+                      whileHover={{ scale: 1.1, y: -6 }}
                     >
-                      <span className="text-2xl sm:text-3xl">{step.emoji}</span>
+                      {/* Inner highlight */}
+                      <div className="absolute inset-1 rounded-full bg-gradient-to-t from-black/10 to-white/10" />
+                      {/* Emoji */}
+                      <motion.span
+                        className="text-3xl sm:text-4xl relative z-10 drop-shadow-lg"
+                        animate={{ rotate: [-3, 3, -3], scale: [1, 1.05, 1] }}
+                        transition={{ duration: 4, repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
+                      >
+                        {step.emoji}
+                      </motion.span>
                     </motion.div>
                     {/* Step number badge */}
-                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center text-[10px] font-bold text-emerald-500">
+                    <div className={`absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex items-center justify-center text-[11px] font-bold text-emerald-400 shadow-lg`}>
                       {i + 1}
                     </div>
                   </div>
-                  <h3 className="font-semibold text-sm sm:text-base text-white mb-1">{step.label}</h3>
-                  <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed max-w-[160px]">{step.desc}</p>
+                  <h3 className="font-bold text-sm sm:text-[15px] text-white mb-1.5 tracking-wide">{step.label}</h3>
+                  <p className="text-[11px] sm:text-xs text-muted-foreground/80 leading-relaxed max-w-[170px]">{step.desc}</p>
                 </motion.div>
               ))}
             </div>
