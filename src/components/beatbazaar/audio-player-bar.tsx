@@ -133,6 +133,8 @@ export function AudioPlayerBar() {
 
     const handleError = (e: Event) => {
       const target = e.target as HTMLAudioElement;
+      // Ignore errors from empty src (e.g. during cleanup)
+      if (!target.src || target.src === window.location.href) return;
       console.error('Audio error:', target.error?.message || 'Unknown error');
       pauseBeat();
       stopTicking();
@@ -181,8 +183,11 @@ export function AudioPlayerBar() {
   const handleClose = () => {
     const audio = getAudioElement();
     audio.pause();
+    // Remove event listeners first to prevent error from empty src
+    audio.removeEventListener('error', () => {});
+    audio.removeAttribute('src');
+    audio.load();
     audio.currentTime = 0;
-    audio.src = '';
     audioReadyRef.current = false;
     lastBeatIdRef.current = null;
     stopTicking();
