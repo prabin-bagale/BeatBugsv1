@@ -13,10 +13,10 @@ import {
   ChevronRight,
   BadgeCheck,
   Clock,
- Upload,
-  Search,
-  CreditCard,
-  Download,
+  FileAudio,
+  PlayCircle,
+  ShieldCheck,
+  Wallet,
   Quote,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -577,10 +577,10 @@ export function HomeView() {
             {/* Steps */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
               {[
-                { Icon: Upload, label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
-                { Icon: Search, label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
-                { Icon: CreditCard, label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
-                { Icon: Download, label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
+                { Icon: FileAudio, label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
+                { Icon: PlayCircle, label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
+                { Icon: ShieldCheck, label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
+                { Icon: Wallet, label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
               ].map((step, i) => (
                 <motion.div
                   key={step.label}
