@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BadgeCheck,
+  ShieldCheck,
   Clock,
   Quote,
 } from 'lucide-react';
@@ -555,50 +556,52 @@ export function HomeView() {
             <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
           </div>
 
-          <div className="relative overflow-hidden py-6 sm:py-10">
-            {/* Curved SVG connecting path - contained within section */}
-            <svg className="hidden sm:block absolute top-1/2 -translate-y-1/2 left-[5%] right-[5%] h-32 z-0" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none">
+          <div className="relative py-6 sm:py-10">
+            {/* Curved SVG connecting path - smooth sine wave through all 4 steps */}
+            <svg className="hidden sm:block absolute inset-0 w-full h-full z-0" viewBox="0 0 1000 200" fill="none" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(16,185,129,0.05)" />
-                  <stop offset="30%" stopColor="rgba(16,185,129,0.25)" />
-                  <stop offset="50%" stopColor="rgba(20,184,166,0.35)" />
-                  <stop offset="70%" stopColor="rgba(16,185,129,0.25)" />
-                  <stop offset="100%" stopColor="rgba(16,185,129,0.05)" />
+                  <stop offset="0%" stopColor="rgba(16,185,129,0.08)" />
+                  <stop offset="25%" stopColor="rgba(16,185,129,0.3)" />
+                  <stop offset="50%" stopColor="rgba(20,184,166,0.4)" />
+                  <stop offset="75%" stopColor="rgba(16,185,129,0.3)" />
+                  <stop offset="100%" stopColor="rgba(16,185,129,0.08)" />
                 </linearGradient>
                 <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#10b981" />
                   <stop offset="50%" stopColor="#14b8a6" />
-                  <stop offset="100%" stopColor="#f59e0b" />
+                  <stop offset="100%" stopColor="#10b981" />
                 </linearGradient>
                 <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge>
                     <feMergeNode in="blur" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
               </defs>
+              {/* Main smooth sine wave: passes through step centers at x=125,375,625,875 y=100 */}
               <path
-                d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
+                d="M 125 100 C 208 30, 292 30, 375 100 C 458 170, 542 170, 625 100 C 708 30, 792 30, 875 100"
                 stroke="url(#curveGrad)"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
+              {/* Animated traveling dot along the curve */}
               <path
-                d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
+                d="M 125 100 C 208 30, 292 30, 375 100 C 458 170, 542 170, 625 100 C 708 30, 792 30, 875 100"
                 stroke="url(#dotGrad)"
-                strokeWidth="2"
+                strokeWidth="3"
                 strokeLinecap="round"
-                strokeDasharray="8 80"
+                strokeDasharray="12 90"
                 filter="url(#glow)"
               >
-                <animate attributeName="stroke-dashoffset" from="0" to="-88" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="stroke-dashoffset" from="0" to="-102" dur="2.5s" repeatCount="indefinite" />
               </path>
             </svg>
 
-            {/* Steps - all aligned on same baseline */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
+            {/* Steps - aligned on same baseline */}
+            <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
               {[
                 { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-400 via-emerald-500 to-teal-600', ring: 'ring-emerald-500/20', delay: 0 },
                 { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-400 via-orange-500 to-amber-600', ring: 'ring-amber-500/20', delay: 0.1 },
@@ -650,6 +653,170 @@ export function HomeView() {
             </div>
           </div>
         </motion.div>
+      </section>
+
+      {/* License Section - Choose the Best License Tier */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-emerald-500/[0.02] to-background" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center mb-8">
+              <Badge className="mb-3 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
+                <ShieldCheck className="w-3 h-3 mr-1.5" />
+                Licensing
+              </Badge>
+              <h2 className="text-xl sm:text-2xl font-bold">Choose the Best License Tier</h2>
+              <p className="text-xs text-muted-foreground mt-1">Easy yet effective! Pick the right license for your needs</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+              {/* WAV Tier */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+              >
+                <Card className="relative overflow-hidden border-border/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/5 group h-full">
+                  {/* Top gradient bar */}
+                  <div className="h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-600" />
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+                        <Music2 className="w-4.5 h-4.5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm">WAV</h3>
+                        <p className="text-[10px] text-muted-foreground">Basic License</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { icon: Users, text: 'Non Exclusive' },
+                        { icon: TrendingUp, text: 'Rights Sharing' },
+                        { icon: Clock, text: '1–99 Yr License Period' },
+                        { icon: Music2, text: 'WAV File' },
+                      ].map((feat, fi) => (
+                        <div key={fi} className="flex items-center gap-2.5">
+                          <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-3 h-3 text-emerald-500" />
+                          </div>
+                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* WAV + STEMS Tier */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <Card className="relative overflow-hidden border-emerald-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 group h-full ring-1 ring-emerald-500/20">
+                  {/* Popular badge */}
+                  <div className="absolute top-3 right-3 z-10">
+                    <Badge className="bg-emerald-500 text-black text-[9px] px-2 py-0.5 font-bold shadow-lg shadow-emerald-500/30">
+                      Popular
+                    </Badge>
+                  </div>
+                  {/* Top gradient bar */}
+                  <div className="h-1.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500" />
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
+                        <Headphones className="w-4.5 h-4.5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm">WAV + STEMS</h3>
+                        <p className="text-[10px] text-emerald-500 font-medium">Most Popular</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { icon: Users, text: 'Non Exclusive' },
+                        { icon: TrendingUp, text: 'Rights Sharing' },
+                        { icon: Clock, text: '1–99 Yr License Period' },
+                        { icon: Headphones, text: 'WAV + Stems File' },
+                      ].map((feat, fi) => (
+                        <div key={fi} className="flex items-center gap-2.5">
+                          <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-3 h-3 text-emerald-500" />
+                          </div>
+                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Exclusive Tier */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <Card className="relative overflow-hidden border-border/50 hover:border-amber-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/5 group h-full">
+                  {/* Top gradient bar */}
+                  <div className="h-1.5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500" />
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
+                        <Zap className="w-4.5 h-4.5 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm">Exclusive</h3>
+                        <p className="text-[10px] text-muted-foreground">Premium License</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { icon: BadgeCheck, text: 'Exclusive' },
+                        { icon: TrendingUp, text: 'Rights Sharing Optional' },
+                        { icon: Clock, text: 'Lifetime' },
+                        { icon: Headphones, text: 'WAV + Stems File' },
+                      ].map((feat, fi) => (
+                        <div key={fi} className="flex items-center gap-2.5">
+                          <div className="w-5 h-5 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-3 h-3 text-amber-500" />
+                          </div>
+                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* License info footer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-8 text-center max-w-lg mx-auto"
+            >
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                <h4 className="font-semibold text-sm">Licensing helps</h4>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Through your distributor, release your music commercially on all digital music streaming platforms with your licensed beat.
+              </p>
+            </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* CTA Section */}

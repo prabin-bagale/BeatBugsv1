@@ -239,3 +239,25 @@ Stage Summary:
 - The stuck function state was cleared by the successful new deployment
 - Build completed with all assets, 18 beats, 8 users in database
 - The Preview Panel should now show BeatBugs live
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix How It Works curve line + Add License section
+
+Work Log:
+- Read current home-view.tsx to understand existing How It Works section layout
+- Analyzed screenshot using VLM skill to extract license tier details (WAV, WAV+STEMS, Exclusive)
+- Fixed SVG curve line: Changed viewBox to 0 0 1000 200, updated path to proper sine wave passing through all 4 step centers (x=125,375,625,875 y=100), made SVG fill entire container with absolute inset-0
+- Added ShieldCheck to lucide-react imports
+- Created License section with 3 tiers after Artists & Producers Who Trust Us:
+  - WAV (Basic): cyan/blue gradient bar, Non Exclusive, Rights Sharing, 1-99 Yr, WAV File
+  - WAV + STEMS (Popular): emerald/teal gradient, highlighted with ring + "Popular" badge
+  - Exclusive (Premium): amber/orange gradient bar, Exclusive, Rights Sharing Optional, Lifetime, WAV+Stems
+- Added "Licensing helps" footer section with ShieldCheck icon
+- Ran lint - passes clean, dev server compiles successfully
+
+Stage Summary:
+- How It Works curve line now uses proper sine wave: M 125 100 C 208 30, 292 30, 375 100 C 458 170, 542 170, 625 100 C 708 30, 792 30, 875 100
+- SVG properly fills container with inset-0 positioning
+- License section placed between How It Works and CTA sections
+- All 3 tiers match the reference screenshot design
