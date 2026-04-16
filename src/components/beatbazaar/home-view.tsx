@@ -13,10 +13,6 @@ import {
   ChevronRight,
   BadgeCheck,
   Clock,
-  FileAudio,
-  PlayCircle,
-  ShieldCheck,
-  Wallet,
   Quote,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -577,10 +573,10 @@ export function HomeView() {
             {/* Steps */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
               {[
-                { Icon: FileAudio, label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
-                { Icon: PlayCircle, label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
-                { Icon: ShieldCheck, label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
-                { Icon: Wallet, label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
+                { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
+                { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
+                { emoji: '🛡️', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
+                { emoji: '💰', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
               ].map((step, i) => (
                 <motion.div
                   key={step.label}
@@ -597,7 +593,7 @@ export function HomeView() {
                       animate={{ boxShadow: [`0 4px 15px rgba(16,185,129,0.2)`, `0 8px 30px rgba(16,185,129,0.4)`, `0 4px 15px rgba(16,185,129,0.2)`] }}
                       transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
                     >
-                      <step.Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" strokeWidth={2} />
+                      <span className="text-2xl sm:text-3xl">{step.emoji}</span>
                     </motion.div>
                     {/* Step number badge */}
                     <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center text-[10px] font-bold text-emerald-500">
