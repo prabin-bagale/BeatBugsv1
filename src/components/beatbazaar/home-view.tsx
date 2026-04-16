@@ -218,7 +218,7 @@ export function HomeView() {
         {/* Pulsing equalizer bars at bottom */}
         <EqualizerBars />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 lg:py-24">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -230,13 +230,13 @@ export function HomeView() {
               Welcome to BeatBugs
             </Badge>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] mb-3">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-4">
               Find Your Next
               <br />
               <span className="gradient-text">Hit Beat</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto mb-8 leading-relaxed">
               Buy and sell beats with local payments, instant delivery, and legal licensing.
               Built for Nepal&apos;s music creators.
             </p>
@@ -276,11 +276,11 @@ export function HomeView() {
       </section>
 
       {/* Trending Beats Carousel */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold">Trending Beats</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">Most popular beats right now</p>
+            <h2 className="text-2xl sm:text-3xl font-bold">Trending Beats</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">Most popular beats right now</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -326,14 +326,14 @@ export function HomeView() {
       </section>
 
       {/* Recently Added */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
-              <Clock className="w-5 h-5 text-emerald-500" />
+            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+              <Clock className="w-6 h-6 text-emerald-500" />
               Recently Added
             </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">Fresh beats just uploaded by producers</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Fresh beats just uploaded by producers</p>
           </div>
           <Button
             variant="ghost"
@@ -383,21 +383,21 @@ export function HomeView() {
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-8">
               <div>
                 <Badge className="mb-2 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
                   <Users className="w-3 h-3 mr-1.5" />
                   Our Community
                 </Badge>
-                <h2 className="text-xl sm:text-2xl font-bold">Artists & Producers Who Trust Us</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">Meet the creators powering Nepal's music scene</p>
+                <h2 className="text-2xl sm:text-3xl font-bold">Artists & Producers Who Trust Us</h2>
+                <p className="text-sm text-muted-foreground mt-0.5">Meet the creators powering Nepal's music scene</p>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -522,7 +522,7 @@ export function HomeView() {
 
       {/* Stats Bar */}
       <section className="border-y border-border/50 bg-card/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="grid grid-cols-3 gap-4 text-center">
             {[
               { label: 'Beats', value: '18+', icon: Music2 },
@@ -530,9 +530,9 @@ export function HomeView() {
               { label: 'Transactions', value: '100+', icon: TrendingUp },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col items-center gap-1">
-                <stat.icon className="w-5 h-5 text-emerald-500" />
-                <span className="text-xl sm:text-2xl font-bold">{stat.value}</span>
-                <span className="text-xs sm:text-sm text-muted-foreground">{stat.label}</span>
+                <stat.icon className="w-6 h-6 text-emerald-500" />
+                <span className="text-2xl sm:text-3xl font-bold">{stat.value}</span>
+                <span className="text-sm sm:text-base text-muted-foreground">{stat.label}</span>
               </div>
             ))}
           </div>
@@ -540,7 +540,7 @@ export function HomeView() {
       </section>
 
       {/* How It Works - Visual Flow */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -552,11 +552,11 @@ export function HomeView() {
               <Zap className="w-3 h-3 mr-1.5" />
               Simple Process
             </Badge>
-            <h2 className="text-xl sm:text-2xl font-bold">How It Works</h2>
-            <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
+            <h2 className="text-2xl sm:text-3xl font-bold">How It Works</h2>
+            <p className="text-sm text-muted-foreground mt-1">Four simple steps to get your next hit</p>
           </div>
 
-          <div className="relative py-6 sm:py-10">
+          <div className="relative py-8 sm:py-14">
             {/* Curved SVG connecting path - smooth sine wave through all 4 steps */}
             <svg className="hidden sm:block absolute inset-0 w-full h-full z-0" viewBox="0 0 1000 200" fill="none" preserveAspectRatio="none">
               <defs>
@@ -601,7 +601,7 @@ export function HomeView() {
             </svg>
 
             {/* Steps - aligned on same baseline */}
-            <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+            <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-10">
               {[
                 { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-400 via-emerald-500 to-teal-600', ring: 'ring-emerald-500/20', delay: 0 },
                 { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-400 via-orange-500 to-amber-600', ring: 'ring-amber-500/20', delay: 0.1 },
@@ -626,7 +626,7 @@ export function HomeView() {
                     />
                     {/* Glass-morphism circle */}
                     <motion.div
-                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg border border-white/10`}
+                      className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg border border-white/10`}
                       whileHover={{ scale: 1.08, y: -4 }}
                       transition={{ type: 'spring', stiffness: 300 }}
                     >
@@ -634,7 +634,7 @@ export function HomeView() {
                       <div className="absolute inset-1 rounded-full bg-gradient-to-t from-black/10 to-white/10" />
                       {/* Emoji */}
                       <motion.span
-                        className="text-2xl sm:text-3xl relative z-10 drop-shadow-md"
+                        className="text-3xl sm:text-4xl relative z-10 drop-shadow-md"
                         animate={{ rotate: [-2, 2, -2], scale: [1, 1.03, 1] }}
                         transition={{ duration: 4, repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
                       >
@@ -642,12 +642,12 @@ export function HomeView() {
                       </motion.span>
                     </motion.div>
                     {/* Step number badge */}
-                    <div className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-emerald-400 shadow-md">
+                    <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex items-center justify-center text-xs font-bold text-emerald-400 shadow-md">
                       {i + 1}
                     </div>
                   </div>
-                  <h3 className="font-bold text-xs sm:text-sm text-white mb-1 tracking-wide">{step.label}</h3>
-                  <p className="text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed max-w-[150px] sm:max-w-[160px]">{step.desc}</p>
+                  <h3 className="font-bold text-sm sm:text-base text-white mb-1.5 tracking-wide">{step.label}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed max-w-[180px] sm:max-w-[200px]">{step.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -658,7 +658,7 @@ export function HomeView() {
       {/* License Section - Choose the Best License Tier */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-emerald-500/[0.02] to-background" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -666,15 +666,15 @@ export function HomeView() {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-8">
-              <Badge className="mb-3 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
-                <ShieldCheck className="w-3 h-3 mr-1.5" />
+              <Badge className="mb-4 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-4 py-1.5 text-sm font-semibold">
+                <ShieldCheck className="w-4 h-4 mr-2" />
                 Licensing
               </Badge>
-              <h2 className="text-xl sm:text-2xl font-bold">Choose the Best License Tier</h2>
-              <p className="text-xs text-muted-foreground mt-1">Easy yet effective! Pick the right license for your needs</p>
+              <h2 className="text-3xl sm:text-4xl font-bold">Choose the Best License Tier</h2>
+              <p className="text-sm sm:text-base text-muted-foreground mt-2">Easy yet effective! Pick the right license for your needs</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
               {/* WAV Tier */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -684,29 +684,29 @@ export function HomeView() {
               >
                 <Card className="relative overflow-hidden border-border/50 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/5 group h-full">
                   {/* Top gradient bar */}
-                  <div className="h-1.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-600" />
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-                        <Music2 className="w-4.5 h-4.5 text-white" />
+                  <div className="h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-600" />
+                  <CardContent className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+                        <Music2 className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-sm">WAV</h3>
-                        <p className="text-[10px] text-muted-foreground">Basic License</p>
+                        <h3 className="font-bold text-lg">WAV</h3>
+                        <p className="text-xs text-muted-foreground">Basic License</p>
                       </div>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {[
                         { icon: Users, text: 'Non Exclusive' },
                         { icon: TrendingUp, text: 'Rights Sharing' },
                         { icon: Clock, text: '1–99 Yr License Period' },
                         { icon: Music2, text: 'WAV File' },
                       ].map((feat, fi) => (
-                        <div key={fi} className="flex items-center gap-2.5">
-                          <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                            <feat.icon className="w-3 h-3 text-emerald-500" />
+                        <div key={fi} className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-4 h-4 text-emerald-500" />
                           </div>
-                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                          <span className="text-sm text-muted-foreground">{feat.text}</span>
                         </div>
                       ))}
                     </div>
@@ -723,35 +723,35 @@ export function HomeView() {
               >
                 <Card className="relative overflow-hidden border-emerald-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 group h-full ring-1 ring-emerald-500/20">
                   {/* Popular badge */}
-                  <div className="absolute top-3 right-3 z-10">
-                    <Badge className="bg-emerald-500 text-black text-[9px] px-2 py-0.5 font-bold shadow-lg shadow-emerald-500/30">
+                  <div className="absolute top-4 right-4 z-10">
+                    <Badge className="bg-emerald-500 text-black text-xs px-3 py-1 font-bold shadow-lg shadow-emerald-500/30">
                       Popular
                     </Badge>
                   </div>
                   {/* Top gradient bar */}
-                  <div className="h-1.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500" />
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
-                        <Headphones className="w-4.5 h-4.5 text-white" />
+                  <div className="h-2 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500" />
+                  <CardContent className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
+                        <Headphones className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-sm">WAV + STEMS</h3>
-                        <p className="text-[10px] text-emerald-500 font-medium">Most Popular</p>
+                        <h3 className="font-bold text-lg">WAV + STEMS</h3>
+                        <p className="text-xs text-emerald-500 font-medium">Most Popular</p>
                       </div>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {[
                         { icon: Users, text: 'Non Exclusive' },
                         { icon: TrendingUp, text: 'Rights Sharing' },
                         { icon: Clock, text: '1–99 Yr License Period' },
                         { icon: Headphones, text: 'WAV + Stems File' },
                       ].map((feat, fi) => (
-                        <div key={fi} className="flex items-center gap-2.5">
-                          <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                            <feat.icon className="w-3 h-3 text-emerald-500" />
+                        <div key={fi} className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-4 h-4 text-emerald-500" />
                           </div>
-                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                          <span className="text-sm text-muted-foreground">{feat.text}</span>
                         </div>
                       ))}
                     </div>
@@ -768,29 +768,29 @@ export function HomeView() {
               >
                 <Card className="relative overflow-hidden border-border/50 hover:border-amber-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/5 group h-full">
                   {/* Top gradient bar */}
-                  <div className="h-1.5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500" />
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
-                        <Zap className="w-4.5 h-4.5 text-white" />
+                  <div className="h-2 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500" />
+                  <CardContent className="p-6 sm:p-8">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-sm">Exclusive</h3>
-                        <p className="text-[10px] text-muted-foreground">Premium License</p>
+                        <h3 className="font-bold text-lg">Exclusive</h3>
+                        <p className="text-xs text-muted-foreground">Premium License</p>
                       </div>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {[
                         { icon: BadgeCheck, text: 'Exclusive' },
                         { icon: TrendingUp, text: 'Rights Sharing Optional' },
                         { icon: Clock, text: 'Lifetime' },
                         { icon: Headphones, text: 'WAV + Stems File' },
                       ].map((feat, fi) => (
-                        <div key={fi} className="flex items-center gap-2.5">
-                          <div className="w-5 h-5 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
-                            <feat.icon className="w-3 h-3 text-amber-500" />
+                        <div key={fi} className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                            <feat.icon className="w-4 h-4 text-amber-500" />
                           </div>
-                          <span className="text-xs text-muted-foreground">{feat.text}</span>
+                          <span className="text-sm text-muted-foreground">{feat.text}</span>
                         </div>
                       ))}
                     </div>
@@ -805,13 +805,13 @@ export function HomeView() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-8 text-center max-w-lg mx-auto"
+              className="mt-10 text-center max-w-2xl mx-auto"
             >
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <h4 className="font-semibold text-sm">Licensing helps</h4>
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                <h4 className="font-semibold text-base">Licensing helps</h4>
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Through your distributor, release your music commercially on all digital music streaming platforms with your licensed beat.
               </p>
             </motion.div>
@@ -820,19 +820,19 @@ export function HomeView() {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <Card className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border-emerald-500/20 overflow-hidden">
-          <CardContent className="p-6 sm:p-8 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold mb-3">
+          <CardContent className="p-8 sm:p-10 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
               Ready to Sell Your Beats?
             </h2>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
+            <p className="text-base text-muted-foreground max-w-md mx-auto mb-6">
               Join Nepal&apos;s growing community of music producers. Upload your beats, 
               set your prices, and start earning today.
             </p>
             <Button
               size="lg"
-              className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold h-10 px-6"
+              className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold h-12 px-8"
               onClick={() => {
                 if (!currentUser) {
                   showToast('Please sign up as a producer to sell beats', 'info');
