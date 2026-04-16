@@ -25,17 +25,6 @@ import { Badge } from '@/components/ui/badge';
 import { BeatCard } from './beat-card';
 import { useAppStore, type Beat, type User } from '@/stores/beatbazaar-store';
 
-const GENRES = [
-  { name: 'NepHop', color: 'from-emerald-500 to-teal-600', icon: '🎤' },
-  { name: 'Lo-Fi', color: 'from-amber-500 to-orange-600', icon: '🎧' },
-  { name: 'Drill', color: 'from-red-500 to-rose-600', icon: '🔥' },
-  { name: 'Trap', color: 'from-purple-500 to-fuchsia-600', icon: '💥' },
-  { name: 'Folk Fusion', color: 'from-yellow-500 to-amber-600', icon: '🪕' },
-  { name: 'R&B', color: 'from-pink-500 to-rose-600', icon: '🎶' },
-  { name: 'Afrobeat', color: 'from-orange-500 to-red-600', icon: '🥁' },
-  { name: 'Hip-Hop', color: 'from-teal-500 to-cyan-600', icon: '🎤' },
-];
-
 /* Floating music symbols for the hero background */
 type MusicSymbol = {
   symbol: string;
@@ -123,7 +112,7 @@ function EqualizerBars() {
 }
 
 export function HomeView() {
-  const { setView, selectBeat, selectProducer, setSelectedGenre, setSearchQuery, currentUser, openAuth, showToast } = useAppStore();
+  const { setView, selectBeat, selectProducer, setSearchQuery, currentUser, openAuth, showToast } = useAppStore();
   const [featuredBeats, setFeaturedBeats] = useState<Beat[]>([]);
   const [recentBeats, setRecentBeats] = useState<Beat[]>([]);
   const [topProducers, setTopProducers] = useState<User[]>([]);
@@ -166,11 +155,6 @@ export function HomeView() {
       left: dir === 'left' ? -scrollAmount : scrollAmount,
       behavior: 'smooth',
     });
-  };
-
-  const handleGenreClick = (genre: string) => {
-    setSelectedGenre(genre);
-    setView('browse');
   };
 
   // Auto-advance producer carousel
@@ -362,7 +346,6 @@ export function HomeView() {
             className="text-emerald-500 hover:text-emerald-400 text-xs"
             onClick={() => {
               setSearchQuery('');
-              setSelectedGenre('');
               useAppStore.getState().setSortBy('newest');
               setView('browse');
             }}
@@ -395,72 +378,6 @@ export function HomeView() {
                 ))}
           </div>
         )}
-      </section>
-
-      {/* How It Works - Visual Flow */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-center mb-8">
-            <Badge className="mb-3 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
-              <Zap className="w-3 h-3 mr-1.5" />
-              Simple Process
-            </Badge>
-            <h2 className="text-xl sm:text-2xl font-bold">How It Works</h2>
-            <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
-          </div>
-
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="hidden sm:block absolute top-1/2 left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-emerald-500/20 via-emerald-500/40 to-emerald-500/20 -translate-y-1/2 z-0">
-              <motion.div
-                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"
-                animate={{ left: ['0%', '100%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            </div>
-
-            {/* Steps */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
-              {[
-                { icon: Upload, emoji: '🎵', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
-                { icon: Search, emoji: '🔍', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
-                { icon: CreditCard, emoji: '💳', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
-                { icon: Download, emoji: '📥', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
-              ].map((step, i) => (
-                <motion.div
-                  key={step.label}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: step.delay }}
-                  className="flex flex-col items-center text-center"
-                >
-                  {/* Circle with gradient ring */}
-                  <div className="relative mb-3">
-                    <motion.div
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg`}
-                      animate={{ boxShadow: [`0 4px 15px rgba(16,185,129,0.2)`, `0 8px 30px rgba(16,185,129,0.4)`, `0 4px 15px rgba(16,185,129,0.2)`] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
-                    >
-                      <span className="text-2xl sm:text-3xl">{step.emoji}</span>
-                    </motion.div>
-                    {/* Step number badge */}
-                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center text-[10px] font-bold text-emerald-500">
-                      {i + 1}
-                    </div>
-                  </div>
-                  <h3 className="font-semibold text-sm sm:text-base text-white mb-1">{step.label}</h3>
-                  <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed max-w-[160px]">{step.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </section>
 
       {/* Top Producers - Round Portrait Slider */}
@@ -630,35 +547,70 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* Genre Browsing */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="text-center mb-5">
-          <h2 className="text-xl sm:text-2xl font-bold">Browse by Genre</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">Find beats that match your style</p>
-        </div>
+      {/* How It Works - Visual Flow */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-8">
+            <Badge className="mb-3 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
+              <Zap className="w-3 h-3 mr-1.5" />
+              Simple Process
+            </Badge>
+            <h2 className="text-xl sm:text-2xl font-bold">How It Works</h2>
+            <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
+          </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-          {GENRES.map((genre, i) => (
-            <motion.div
-              key={genre.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
-            >
-              <Card
-                className="cursor-pointer overflow-hidden bg-card border-border/50 hover:border-emerald-500/30 transition-all duration-300 group"
-                onClick={() => handleGenreClick(genre.name)}
-              >
-                <CardContent className="p-4 sm:p-5">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${genre.color} flex items-center justify-center text-lg sm:text-xl mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                    {genre.icon}
+          <div className="relative">
+            {/* Connecting line */}
+            <div className="hidden sm:block absolute top-1/2 left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-emerald-500/20 via-emerald-500/40 to-emerald-500/20 -translate-y-1/2 z-0">
+              <motion.div
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"
+                animate={{ left: ['0%', '100%'] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
+
+            {/* Steps */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
+              {[
+                { Icon: Upload, label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-500 to-teal-600', delay: 0 },
+                { Icon: Search, label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-500 to-orange-600', delay: 0.1 },
+                { Icon: CreditCard, label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-500 to-fuchsia-600', delay: 0.2 },
+                { Icon: Download, label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-500 to-rose-600', delay: 0.3 },
+              ].map((step, i) => (
+                <motion.div
+                  key={step.label}
+                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: step.delay }}
+                  className="flex flex-col items-center text-center"
+                >
+                  {/* Circle with gradient and lucide icon */}
+                  <div className="relative mb-3">
+                    <motion.div
+                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg`}
+                      animate={{ boxShadow: [`0 4px 15px rgba(16,185,129,0.2)`, `0 8px 30px rgba(16,185,129,0.4)`, `0 4px 15px rgba(16,185,129,0.2)`] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
+                    >
+                      <step.Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" strokeWidth={2} />
+                    </motion.div>
+                    {/* Step number badge */}
+                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center text-[10px] font-bold text-emerald-500">
+                      {i + 1}
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-sm sm:text-base text-white">{genre.name}</h3>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                  <h3 className="font-semibold text-sm sm:text-base text-white mb-1">{step.label}</h3>
+                  <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed max-w-[160px]">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* CTA Section */}
