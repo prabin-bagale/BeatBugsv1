@@ -115,7 +115,6 @@ export function HomeView() {
   const [loading, setLoading] = useState(true);
   const [carouselRef, setCarouselRef] = useState<HTMLDivElement | null>(null);
   const [activeProducerSlide, setActiveProducerSlide] = useState(0);
-  const [isProducerHovered, setIsProducerHovered] = useState(false);
   const producerScrollRef = useRef<HTMLDivElement | null>(null);
   const producerAutoSlideRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -154,47 +153,46 @@ export function HomeView() {
   };
 
   // Auto-advance producer carousel
-  const producerTotalSlides = Math.max(topProducers.length, 1);
+  const producerTotalSlides = topProducers.length;
+  const slideWidth = 280;
 
-  const startProducerAutoSlide = useCallback(() => {
-    if (producerAutoSlideRef.current) clearInterval(producerAutoSlideRef.current);
-    producerAutoSlideRef.current = setInterval(() => {
-      setActiveProducerSlide((prev) => (prev + 1) % producerTotalSlides);
-      if (producerScrollRef.current) {
-        const nextSlide = ((activeProducerSlide + 1) % producerTotalSlides);
-        const cardWidth = 280;
-        producerScrollRef.current.scrollTo({
-          left: nextSlide * cardWidth,
-          behavior: 'smooth',
-        });
-      }
-    }, 4000);
-  }, [producerTotalSlides, activeProducerSlide]);
+  const scrollToProducerSlide = useCallback((index: number) => {
+    if (!producerScrollRef.current) return;
+    const scrollLeft = index * slideWidth;
+    producerScrollRef.current.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    setActiveProducerSlide(index);
+  }, []);
 
   useEffect(() => {
-    if (topProducers.length > 0) {
-      startProducerAutoSlide();
-    }
+    if (topProducers.length === 0) return;
+    producerAutoSlideRef.current = setInterval(() => {
+      setActiveProducerSlide((prev) => (prev + 1) % producerTotalSlides);
+    }, 4000);
     return () => {
       if (producerAutoSlideRef.current) clearInterval(producerAutoSlideRef.current);
     };
-  }, [topProducers.length, startProducerAutoSlide]);
+  }, [producerTotalSlides]);
+
+  // Sync scroll position with active slide
+  useEffect(() => {
+    if (producerScrollRef.current) {
+      producerScrollRef.current.scrollTo({ left: activeProducerSlide * slideWidth, behavior: 'smooth' });
+    }
+  }, [activeProducerSlide, slideWidth]);
 
   const scrollProducer = (dir: 'left' | 'right') => {
-    if (!producerScrollRef.current) return;
-    const slideWidth = 280;
+    let newSlide: number;
     if (dir === 'left') {
-      const newSlide = activeProducerSlide > 0 ? activeProducerSlide - 1 : producerTotalSlides - 1;
-      setActiveProducerSlide(newSlide);
-      producerScrollRef.current.scrollTo({ left: newSlide * slideWidth, behavior: 'smooth' });
+      newSlide = activeProducerSlide > 0 ? activeProducerSlide - 1 : producerTotalSlides - 1;
     } else {
-      const newSlide = (activeProducerSlide + 1) % producerTotalSlides;
-      setActiveProducerSlide(newSlide);
-      producerScrollRef.current.scrollTo({ left: newSlide * slideWidth, behavior: 'smooth' });
+      newSlide = (activeProducerSlide + 1) % producerTotalSlides;
     }
+    setActiveProducerSlide(newSlide);
     // Restart auto-slide timer on manual navigation
     if (producerAutoSlideRef.current) clearInterval(producerAutoSlideRef.current);
-    startProducerAutoSlide();
+    producerAutoSlideRef.current = setInterval(() => {
+      setActiveProducerSlide((prev) => (prev + 1) % producerTotalSlides);
+    }, 4000);
   };
 
   return (
@@ -395,10 +393,10 @@ export function HomeView() {
               <div>
                 <Badge className="mb-2 bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-xs font-semibold">
                   <Users className="w-3 h-3 mr-1.5" />
-                  Featured Creators
+                  Our Community
                 </Badge>
-                <h2 className="text-xl sm:text-2xl font-bold">Top Producers</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">Trusted by artists across Nepal</p>
+                <h2 className="text-xl sm:text-2xl font-bold">Artists & Producers Who Trust Us</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">Meet the creators powering Nepal's music scene</p>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -424,8 +422,6 @@ export function HomeView() {
               className="overflow-x-auto snap-x snap-mandatory pb-2"
               ref={producerScrollRef}
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              onMouseEnter={() => setIsProducerHovered(true)}
-              onMouseLeave={() => setIsProducerHovered(false)}
             >
               <div className="flex gap-6">
                 {loading
@@ -499,12 +495,11 @@ export function HomeView() {
                   <button
                     key={i}
                     onClick={() => {
-                      setActiveProducerSlide(i);
-                      if (producerScrollRef.current) {
-                        producerScrollRef.current.scrollTo({ left: i * 280, behavior: 'smooth' });
-                      }
+                      scrollToProducerSlide(i);
                       if (producerAutoSlideRef.current) clearInterval(producerAutoSlideRef.current);
-                      startProducerAutoSlide();
+                      producerAutoSlideRef.current = setInterval(() => {
+                        setActiveProducerSlide((prev) => (prev + 1) % producerTotalSlides);
+                      }, 4000);
                     }}
                     className="transition-all duration-300"
                   >
@@ -560,16 +555,16 @@ export function HomeView() {
             <p className="text-xs text-muted-foreground mt-1">Four simple steps to get your next hit</p>
           </div>
 
-          <div className="relative py-4">
-            {/* Curved SVG connecting path */}
-            <svg className="hidden sm:block absolute inset-0 w-full h-full z-0" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none">
+          <div className="relative overflow-hidden py-6 sm:py-10">
+            {/* Curved SVG connecting path - contained within section */}
+            <svg className="hidden sm:block absolute top-1/2 -translate-y-1/2 left-[5%] right-[5%] h-32 z-0" viewBox="0 0 800 120" fill="none" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(16,185,129,0.08)" />
-                  <stop offset="30%" stopColor="rgba(16,185,129,0.35)" />
-                  <stop offset="50%" stopColor="rgba(20,184,166,0.45)" />
-                  <stop offset="70%" stopColor="rgba(16,185,129,0.35)" />
-                  <stop offset="100%" stopColor="rgba(16,185,129,0.08)" />
+                  <stop offset="0%" stopColor="rgba(16,185,129,0.05)" />
+                  <stop offset="30%" stopColor="rgba(16,185,129,0.25)" />
+                  <stop offset="50%" stopColor="rgba(20,184,166,0.35)" />
+                  <stop offset="70%" stopColor="rgba(16,185,129,0.25)" />
+                  <stop offset="100%" stopColor="rgba(16,185,129,0.05)" />
                 </linearGradient>
                 <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#10b981" />
@@ -587,13 +582,13 @@ export function HomeView() {
               <path
                 d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
                 stroke="url(#curveGrad)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
               />
               <path
                 d="M 80 60 C 160 10, 260 110, 340 60 C 420 10, 520 110, 720 60"
                 stroke="url(#dotGrad)"
-                strokeWidth="2.5"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeDasharray="8 80"
                 filter="url(#glow)"
@@ -602,68 +597,54 @@ export function HomeView() {
               </path>
             </svg>
 
-            {/* Decorative floating dots */}
-            <div className="hidden sm:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
-              {[{ x: '20%', y: '15%', size: 4, delay: 0 }, { x: '45%', y: '85%', size: 3, delay: 1.5 }, { x: '70%', y: '10%', size: 5, delay: 0.8 }, { x: '85%', y: '80%', size: 3, delay: 2.2 }].map((dot, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute rounded-full bg-emerald-500/20"
-                  style={{ left: dot.x, top: dot.y, width: dot.size, height: dot.size }}
-                  animate={{ y: [0, -12, 8, -6, 0], opacity: [0.2, 0.6, 0.3, 0.5, 0.2] }}
-                  transition={{ duration: 4 + i * 0.5, repeat: Infinity, delay: dot.delay, ease: 'easeInOut' }}
-                />
-              ))}
-            </div>
-
-            {/* Steps */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-6 relative z-10">
+            {/* Steps - all aligned on same baseline */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-4 relative z-10">
               {[
-                { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-400 via-emerald-500 to-teal-600', ring: 'ring-emerald-500/20', delay: 0, yOff: 10 },
-                { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-400 via-orange-500 to-amber-600', ring: 'ring-amber-500/20', delay: 0.1, yOff: -10 },
-                { emoji: '🛡️', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-400 via-fuchsia-500 to-purple-600', ring: 'ring-purple-500/20', delay: 0.2, yOff: 10 },
-                { emoji: '💰', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-400 via-rose-500 to-pink-600', ring: 'ring-pink-500/20', delay: 0.3, yOff: -10 },
+                { emoji: '🎶', label: 'Create & Upload', desc: 'Producers upload their beats with tags and pricing', gradient: 'from-emerald-400 via-emerald-500 to-teal-600', ring: 'ring-emerald-500/20', delay: 0 },
+                { emoji: '🎧', label: 'Discover & Preview', desc: 'Browse, search, and preview beats instantly', gradient: 'from-amber-400 via-orange-500 to-amber-600', ring: 'ring-amber-500/20', delay: 0.1 },
+                { emoji: '🛡️', label: 'License & Pay', desc: 'Choose your license tier and pay securely', gradient: 'from-purple-400 via-fuchsia-500 to-purple-600', ring: 'ring-purple-500/20', delay: 0.2 },
+                { emoji: '💰', label: 'Download & Earn', desc: 'Get instant delivery and producers earn revenue', gradient: 'from-pink-400 via-rose-500 to-pink-600', ring: 'ring-pink-500/20', delay: 0.3 },
               ].map((step, i) => (
                 <motion.div
                   key={step.label}
-                  initial={{ opacity: 0, y: 40, scale: 0.7 }}
-                  whileInView={{ opacity: 1, y: step.yOff, scale: 1 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: step.delay, type: 'spring', stiffness: 100 }}
+                  transition={{ duration: 0.5, delay: step.delay }}
                   className="flex flex-col items-center text-center"
                 >
                   {/* Outer glow ring */}
-                  <div className={`relative mb-4`}>
+                  <div className="relative mb-3">
                     {/* Animated outer ring */}
                     <motion.div
-                      className={`absolute -inset-2 rounded-full ${step.ring} ring-2 opacity-60`}
-                      animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
+                      className={`absolute -inset-1.5 rounded-full ${step.ring} ring-2 opacity-50`}
+                      animate={{ scale: [1, 1.12, 1], opacity: [0.3, 0.5, 0.3] }}
                       transition={{ duration: 3, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' }}
                     />
                     {/* Glass-morphism circle */}
                     <motion.div
-                      className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-xl backdrop-blur-sm border border-white/10`}
-                      animate={{ y: [0, -4, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
-                      whileHover={{ scale: 1.1, y: -6 }}
+                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg border border-white/10`}
+                      whileHover={{ scale: 1.08, y: -4 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
                     >
                       {/* Inner highlight */}
                       <div className="absolute inset-1 rounded-full bg-gradient-to-t from-black/10 to-white/10" />
                       {/* Emoji */}
                       <motion.span
-                        className="text-3xl sm:text-4xl relative z-10 drop-shadow-lg"
-                        animate={{ rotate: [-3, 3, -3], scale: [1, 1.05, 1] }}
+                        className="text-2xl sm:text-3xl relative z-10 drop-shadow-md"
+                        animate={{ rotate: [-2, 2, -2], scale: [1, 1.03, 1] }}
                         transition={{ duration: 4, repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
                       >
                         {step.emoji}
                       </motion.span>
                     </motion.div>
                     {/* Step number badge */}
-                    <div className={`absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex items-center justify-center text-[11px] font-bold text-emerald-400 shadow-lg`}>
+                    <div className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-emerald-400 shadow-md">
                       {i + 1}
                     </div>
                   </div>
-                  <h3 className="font-bold text-sm sm:text-[15px] text-white mb-1.5 tracking-wide">{step.label}</h3>
-                  <p className="text-[11px] sm:text-xs text-muted-foreground/80 leading-relaxed max-w-[170px]">{step.desc}</p>
+                  <h3 className="font-bold text-xs sm:text-sm text-white mb-1 tracking-wide">{step.label}</h3>
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed max-w-[150px] sm:max-w-[160px]">{step.desc}</p>
                 </motion.div>
               ))}
             </div>

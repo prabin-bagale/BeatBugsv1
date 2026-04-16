@@ -5,11 +5,11 @@ const MOODS = ['Dark', 'Chill', 'Aggressive', 'Melancholic', 'Energetic', 'Roman
 const KEYS = ['Am', 'Bbm', 'Bm', 'Cm', 'C#m', 'Dm', 'D#m', 'Em', 'Fm', 'F#m', 'Gm', 'G#m'];
 
 const producers = [
-  { id: 'p1', email: 'grimesaathi@beatbazaar.np', name: 'Grime Saathi', bio: 'NepHop pioneer blending traditional Nepali melodies with hard-hitting 808s. 5+ years in the scene.', avatar: 'https://picsum.photos/seed/producer1/200/200' },
-  { id: 'p2', email: 'loksansar@beatbazaar.np', name: 'Lok Sansar', bio: 'Folk fusion specialist. Mixing sarangi samples with modern trap production.', avatar: 'https://picsum.photos/seed/producer2/200/200' },
-  { id: 'p3', email: 'drrzbeats@beatbazaar.np', name: 'DRRZ Beats', bio: 'Nepali drill producer. Dark, cinematic soundscapes for the streets.', avatar: 'https://picsum.photos/seed/producer3/200/200' },
-  { id: 'p4', email: 'melodykarki@beatbazaar.np', name: 'Melody Karki', bio: 'R&B and soul influenced. Smooth vibes for vocalists.', avatar: 'https://picsum.photos/seed/producer4/200/200' },
-  { id: 'p5', email: 'beathimal@beatbazaar.np', name: 'Beat Himal', bio: 'High-energy trap beats. Known for viral TikTok hooks.', avatar: 'https://picsum.photos/seed/producer5/200/200' },
+  { id: 'p1', email: 'grimesaathi@beatbazaar.np', name: 'Grime Saathi', bio: 'NepHop pioneer blending traditional Nepali melodies with hard-hitting 808s. 5+ years in the scene.', avatar: '/producers/grime-saathi.png' },
+  { id: 'p2', email: 'loksansar@beatbazaar.np', name: 'Lok Sansar', bio: 'Folk fusion specialist. Mixing sarangi samples with modern trap production.', avatar: '/producers/lok-sansar.png' },
+  { id: 'p3', email: 'drrzbeats@beatbazaar.np', name: 'DRRZ Beats', bio: 'Nepali drill producer. Dark, cinematic soundscapes for the streets.', avatar: '/producers/drrz-beats.png' },
+  { id: 'p4', email: 'melodykarki@beatbazaar.np', name: 'Melody Karki', bio: 'R&B and soul influenced. Smooth vibes for vocalists.', avatar: '/producers/melody-karki.png' },
+  { id: 'p5', email: 'beathimal@beatbazaar.np', name: 'Beat Himal', bio: 'High-energy trap beats. Known for viral TikTok hooks.', avatar: '/producers/beat-himal.png' },
 ];
 
 const buyers = [
