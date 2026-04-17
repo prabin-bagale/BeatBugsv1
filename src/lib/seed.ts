@@ -1,11 +1,11 @@
 import { db } from './db'
 
 const USERS = [
-  { id: 'p1', email: 'grimesaathi@beatbazaar.np', name: 'Grime Saathi', role: 'producer', avatar: 'https://picsum.photos/seed/producer1/200/200', bio: 'NepHop pioneer blending traditional Nepali melodies with hard-hitting 808s. 5+ years in the scene.', verified: true },
-  { id: 'p2', email: 'loksansar@beatbazaar.np', name: 'Lok Sansar', role: 'producer', avatar: 'https://picsum.photos/seed/producer2/200/200', bio: 'Folk fusion specialist. Mixing sarangi samples with modern trap production.', verified: true },
-  { id: 'p3', email: 'drrzbeats@beatbazaar.np', name: 'DRRZ Beats', role: 'producer', avatar: 'https://picsum.photos/seed/producer3/200/200', bio: 'Nepali drill producer. Dark, cinematic soundscapes for the streets.', verified: true },
-  { id: 'p4', email: 'melodykarki@beatbazaar.np', name: 'Melody Karki', role: 'producer', avatar: 'https://picsum.photos/seed/producer4/200/200', bio: 'R&B and soul influenced. Smooth vibes for vocalists.', verified: true },
-  { id: 'p5', email: 'beathimal@beatbazaar.np', name: 'Beat Himal', role: 'producer', avatar: 'https://picsum.photos/seed/producer5/200/200', bio: 'High-energy trap beats. Known for viral TikTok hooks.', verified: true },
+  { id: 'p1', email: 'grimesaathi@beatbazaar.np', name: 'Grime Saathi', role: 'producer', avatar: '/producers/grime-saathi.png', bio: 'NepHop pioneer blending traditional Nepali melodies with hard-hitting 808s. 5+ years in the scene.', verified: true },
+  { id: 'p2', email: 'loksansar@beatbazaar.np', name: 'Lok Sansar', role: 'producer', avatar: '/producers/lok-sansar.png', bio: 'Folk fusion specialist. Mixing sarangi samples with modern trap production.', verified: true },
+  { id: 'p3', email: 'drrzbeats@beatbazaar.np', name: 'DRRZ Beats', role: 'producer', avatar: '/producers/drrz-beats.png', bio: 'Nepali drill producer. Dark, cinematic soundscapes for the streets.', verified: true },
+  { id: 'p4', email: 'melodykarki@beatbazaar.np', name: 'Melody Karki', role: 'producer', avatar: '/producers/melody-karki.png', bio: 'R&B and soul influenced. Smooth vibes for vocalists.', verified: true },
+  { id: 'p5', email: 'beathimal@beatbazaar.np', name: 'Beat Himal', role: 'producer', avatar: '/producers/beat-himal.png', bio: 'High-energy trap beats. Known for viral TikTok hooks.', verified: true },
   { id: 'b1', email: 'mc.everest@beatbazaar.np', name: 'MC Everest', role: 'buyer', avatar: 'https://picsum.photos/seed/buyer1/200/200', bio: 'Rapper from Kathmandu', verified: false },
   { id: 'b2', email: 'rhymestha@beatbazaar.np', name: 'Rhyme Thapa', role: 'buyer', avatar: 'https://picsum.photos/seed/buyer2/200/200', bio: 'Indie hip-hop artist', verified: false },
 ]
@@ -58,37 +58,42 @@ export async function ensureSeeded() {
       }
 
       const count = await db.user.count()
-      if (count > 0) {
-        seeded = true
-        return
+      if (count === 0) {
+        console.log('[seed] Database is empty, seeding...')
+
+        // Create users
+        for (const user of USERS) {
+          await db.user.upsert({
+            where: { id: user.id },
+            update: { avatar: user.avatar, name: user.name, bio: user.bio, verified: user.verified },
+            create: user,
+          }).catch(() => {})
+        }
+
+        // Create beats
+        for (const beat of BEATS) {
+          await db.beat.create({
+            data: beat,
+          }).catch(() => {})
+        }
+
+        // Create orders
+        for (const order of ORDERS) {
+          await db.order.create({
+            data: order,
+          }).catch(() => {})
+        }
+
+        console.log('[seed] Database seeded successfully')
+      } else {
+        // Sync producer avatars from local files (in case they were updated)
+        for (const user of USERS) {
+          await db.user.update({
+            where: { id: user.id },
+            data: { avatar: user.avatar },
+          }).catch(() => {})
+        }
       }
-
-      console.log('[seed] Database is empty, seeding...')
-
-      // Create users
-      for (const user of USERS) {
-        await db.user.upsert({
-          where: { id: user.id },
-          update: {},
-          create: user,
-        }).catch(() => {})
-      }
-
-      // Create beats
-      for (const beat of BEATS) {
-        await db.beat.create({
-          data: beat,
-        }).catch(() => {})
-      }
-
-      // Create orders
-      for (const order of ORDERS) {
-        await db.order.create({
-          data: order,
-        }).catch(() => {})
-      }
-
-      console.log('[seed] Database seeded successfully')
       seeded = true
     } catch (error) {
       console.error('[seed] Seeding failed:', error)
