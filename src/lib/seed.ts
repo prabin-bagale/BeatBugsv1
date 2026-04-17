@@ -45,36 +45,16 @@ export async function ensureSeeded() {
 
   seedPromise = (async () => {
     try {
-      // Check if User table exists by trying a raw query
+      // Check if schema exists by trying a simple query
       let needsSchema = false
       try {
-        await db.$queryRaw`SELECT name FROM sqlite_master WHERE type='table' AND name='User'`
+        await db.user.count()
       } catch {
         needsSchema = true
       }
 
       if (needsSchema) {
-        console.log('[seed] Creating database schema...')
-        try {
-          // Each statement must be executed separately (Prisma doesn't support multi-statement)
-          const statements = [
-            `CREATE TABLE IF NOT EXISTS "User" ("id" TEXT NOT NULL PRIMARY KEY, "email" TEXT NOT NULL, "name" TEXT NOT NULL, "role" TEXT NOT NULL DEFAULT 'buyer', "avatar" TEXT, "bio" TEXT, "verified" BOOLEAN NOT NULL DEFAULT 0, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL)`,
-            `CREATE UNIQUE INDEX IF NOT EXISTS "User_email_key" ON "User"("email")`,
-            `CREATE TABLE IF NOT EXISTS "Beat" ("id" TEXT NOT NULL PRIMARY KEY, "title" TEXT NOT NULL, "description" TEXT, "genre" TEXT NOT NULL, "subGenre" TEXT, "bpm" INTEGER NOT NULL, "key" TEXT NOT NULL DEFAULT 'Cm', "mood" TEXT, "tags" TEXT NOT NULL DEFAULT '[]', "coverUrl" TEXT NOT NULL, "audioPreviewUrl" TEXT NOT NULL, "audioFileUrl" TEXT, "plays" INTEGER NOT NULL DEFAULT 0, "sales" INTEGER NOT NULL DEFAULT 0, "status" TEXT NOT NULL DEFAULT 'active', "exclusiveSold" BOOLEAN NOT NULL DEFAULT 0, "basicPrice" REAL NOT NULL DEFAULT 999, "premiumPrice" REAL NOT NULL DEFAULT 2999, "exclusivePrice" REAL NOT NULL DEFAULT 9999, "producerId" TEXT NOT NULL, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL, FOREIGN KEY ("producerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE)`,
-            `CREATE INDEX IF NOT EXISTS "Beat_producerId_idx" ON "Beat"("producerId")`,
-            `CREATE TABLE IF NOT EXISTS "Order" ("id" TEXT NOT NULL PRIMARY KEY, "buyerId" TEXT NOT NULL, "beatId" TEXT NOT NULL, "licenseType" TEXT NOT NULL, "amount" REAL NOT NULL, "currency" TEXT NOT NULL DEFAULT 'NPR', "status" TEXT NOT NULL DEFAULT 'completed', "paymentMethod" TEXT NOT NULL DEFAULT 'esewa', "licensePdfUrl" TEXT, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL, FOREIGN KEY ("buyerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE, FOREIGN KEY ("beatId") REFERENCES "Beat"("id") ON DELETE RESTRICT ON UPDATE CASCADE)`,
-            `CREATE INDEX IF NOT EXISTS "Order_buyerId_idx" ON "Order"("buyerId")`,
-            `CREATE INDEX IF NOT EXISTS "Order_beatId_idx" ON "Order"("beatId")`,
-          ]
-          for (const sql of statements) {
-            await db.$executeRawUnsafe(sql)
-          }
-          console.log('[seed] Schema created successfully')
-        } catch (e) {
-          console.error('[seed] Schema creation failed:', e)
-          seedPromise = null
-          return
-        }
+        console.log('[seed] Database schema not found. On Vercel, make sure to run "prisma db push" against your Turso database before deploying.')
       }
 
       const count = await db.user.count()
