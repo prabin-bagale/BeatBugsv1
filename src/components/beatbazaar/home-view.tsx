@@ -453,7 +453,7 @@ export function HomeView() {
                               whileHover={{ scale: 1.05 }}
                             >
                               <img
-                                src={producer.avatar || `https://picsum.photos/seed/${producer.id}/200/200`}
+                                src={producer.avatar || `https://i.pravatar.cc/200?u=${producer.id}`}
                                 alt={producer.name}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                               />
